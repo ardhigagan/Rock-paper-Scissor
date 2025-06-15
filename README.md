@@ -14,6 +14,10 @@ A simple, interactive Rock-Paper-Scissors game built using HTML, CSS, and JavaSc
 - CSS – Styling and responsiveness
 - JavaScript – Game logic and interactivity
 
+## 🚀 Live Demo
+
+[Click here to play the game](https://hilarious-pony-650eaf.netlify.app/)
+
 ## 🎮 How to Play
 - Choose Rock, Paper, or Scissors by clicking the respective button.
 - The computer randomly selects its move.
