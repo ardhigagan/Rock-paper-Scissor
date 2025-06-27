@@ -1,39 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rock Paper Scissors Game</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <h1>Rock Paper Scissors</h1>
-    <div class="choices">
-      <div class="choice" id="rock">
-        <img src="rock.png" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rock Paper Scissors</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <div id="game" class="card">
+      <h2>Rock Paper Scissors</h2>
+      <div class="hands">
+        <div>
+          <p>You</p>
+          <div id="player-hand" class="hand">✊</div>
+        </div>
+        <p>v/s</p>
+        <div>
+          <p>Computer</p>
+          <div id="computer-hand" class="hand">✊</div>
+        </div>
       </div>
-      <div class="choice" id="paper">
-        <img src="paper.png" />
-      </div>
-      <div class="choice" id="scissors">
-        <img src="scissors.png" />
-      </div>
-    </div>
 
-    <div class="score-board">
-      <div class="score">
-        <p id="user-score">0</p>
-        <p>You</p>
-      </div>
-      <div class="score">
-        <p id="comp-score">0</p>
-        <p>Comp</p>
-      </div>
-    </div>
+      <p id="result-text">Choose your move!</p>
 
-    <div class="msg-container">
-      <p id="msg">Play your move</p>
+      <div id="choice-buttons">
+        <button class="choice" data-choice="rock">✊</button>
+        <button class="choice" data-choice="paper">✋</button>
+        <button class="choice" data-choice="scissors">✌️</button>
+      </div>
+
+      <button id="play-again" class="hidden"> Play Again</button>
+
+      <div class="score-board">
+        <span>Won: <span id="won-count">0</span></span>
+        <span>Lost: <span id="lost-count">0</span></span>
+        <span>Draw: <span id="draw-count">0</span></span>
+      </div>
     </div>
-    <script src="script.js"></script>
-  </body>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>

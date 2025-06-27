@@ -1,61 +1,92 @@
-let userScore = 0;
-let compScore = 0;
+const playerHand = document.getElementById("player-hand");
+const computerHand = document.getElementById("computer-hand");
+const resultText = document.getElementById("result-text");
+const playAgainBtn = document.getElementById("play-again");
 
 const choices = document.querySelectorAll(".choice");
-const msg = document.querySelector("#msg");
 
-const userScorePara = document.querySelector("#user-score");
-const compScorePara = document.querySelector("#comp-score");
+const wonCount = document.getElementById("won-count");
+const lostCount = document.getElementById("lost-count");
+const drawCount = document.getElementById("draw-count");
 
-const genCompChoice = () => {
-  const options = ["rock", "paper", "scissors"];
-  const randIdx = Math.floor(Math.random() * 3);
-  return options[randIdx];
+let wins = 0, losses = 0, draws = 0;
+
+const handEmojis = {
+  rock: "✊",
+  paper: "✋",
+  scissors: "✌️"
 };
 
-const drawGame = () => {
-  msg.innerText = "Game was Draw. Play again.";
-  msg.style.backgroundColor = "#50514F";
-  msg.style.color = "#FFFCFF";
-};
+choices.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const userChoice = btn.dataset.choice;
+    const computerChoice = getComputerChoice();
 
-const showWinner = (userWin, userChoice, compChoice) => {
-  if (userWin) {
-    userScore++;
-    userScorePara.innerText = userScore;
-    msg.innerText = `You win! Your ${userChoice} beats ${compChoice}`;
-    msg.style.backgroundColor = "#97DB4F";
-    msg.style.color = "#3F4531";
-  } else {
-    compScore++;
-    compScorePara.innerText = compScore;
-    msg.innerText = `You lost. ${compChoice} beats your ${userChoice}`;
-    msg.style.backgroundColor = "#B20D30";
-    msg.style.color = "#F0E2E7";
-  }
-};
+    // Reset both hands to default
+    playerHand.textContent = handEmojis["rock"];
+    computerHand.textContent = handEmojis["rock"];
+    playerHand.classList.add("shake");
+    computerHand.classList.add("shake");
 
-const playGame = (userChoice) => {
-  const compChoice = genCompChoice();
+    setTimeout(() => {
+      // Stop shaking and show real choices
+      playerHand.classList.remove("shake");
+      computerHand.classList.remove("shake");
 
-  if (userChoice === compChoice) {
-    drawGame();
-  } else {
-    let userWin = true;
-    if (userChoice === "rock") {
-      userWin = compChoice === "paper" ? false : true;
-    } else if (userChoice === "paper") {
-      userWin = compChoice === "scissors" ? false : true;
-    } else {
-      userWin = compChoice === "rock" ? false : true;
-    }
-    showWinner(userWin, userChoice, compChoice);
-  }
-};
+      playerHand.textContent = handEmojis[userChoice];
+      computerHand.textContent = handEmojis[computerChoice];
 
-choices.forEach((choice) => {
-  choice.addEventListener("click", () => {
-    const userChoice = choice.getAttribute("id");
-    playGame(userChoice);
+      const result = getResult(userChoice, computerChoice);
+      showResult(result, userChoice, computerChoice);
+    }, 1200);
   });
 });
+
+function getComputerChoice() {
+  const options = ["rock", "paper", "scissors"];
+  return options[Math.floor(Math.random() * options.length)];
+}
+
+function getResult(user, comp) {
+  if (user === comp) return "draw";
+  if (
+    (user === "rock" && comp === "scissors") ||
+    (user === "paper" && comp === "rock") ||
+    (user === "scissors" && comp === "paper")
+  ) return "win";
+  return "lose";
+}
+
+function showResult(result, user, comp) {
+  if (result === "win") {
+    wins++;
+    resultText.textContent = `You Won! ${capitalize(user)} beats ${capitalize(comp)}`;
+    resultText.style.color = "#4caf50";
+  } else if (result === "lose") {
+    losses++;
+    resultText.textContent = `You Lost! ${capitalize(comp)} beats ${capitalize(user)}`;
+    resultText.style.color = "#f44336";
+  } else {
+    draws++;
+    resultText.textContent = `Draw! You both chose ${capitalize(user)}`;
+    resultText.style.color = "#ffc107";
+  }
+
+  wonCount.textContent = wins;
+  lostCount.textContent = losses;
+  drawCount.textContent = draws;
+
+  playAgainBtn.classList.remove("hidden");
+}
+
+playAgainBtn.addEventListener("click", () => {
+  resultText.textContent = "Choose your move!";
+  resultText.style.color = "#fff";
+  playAgainBtn.classList.add("hidden");
+  playerHand.textContent = handEmojis["rock"];
+  computerHand.textContent = handEmojis["rock"];
+});
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
